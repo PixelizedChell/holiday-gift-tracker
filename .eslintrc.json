@@ -1,8 +1,31 @@
 {
-    "extends": "next/core-web-vitals",
-    "rules": {
-        "@next/next/no-img-element": "off",
-        "react/prop-types": "error",
-        "no-undef": "error"
+  "extends": ["next/core-web-vitals", "plugin:import/recommended", "eslint:recommended", "plugin:react/recommended"],
+  "plugins": ["import", "react"],
+  "settings": {
+    "import/resolver": {
+      "alias": {
+        "map": [
+          ["@components", "./components"],
+          ["@app", "./app"]
+        ],
+        "extensions": [".js", ".jsx", ".ts", ".tsx"]
+      },
+      "node": {
+        "paths": ["./"],
+        "extensions": [".js", ".jsx", ".ts", ".tsx"]
+      }
+    },
+    "react": {
+      "version": "detect"
     }
+  },
+  "rules": {
+    "import/no-unresolved": "error",
+    "import/named": "error",
+    "import/default": "error",
+    "import/namespace": "error",
+    "@next/next/no-img-element": "off",
+    "react/prop-types": "error",
+    "react/react-in-jsx-scope": "off"
+  }
 }

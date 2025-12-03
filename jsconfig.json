@@ -1,7 +1,13 @@
-{ 
-    "compilerOptions": {
-        "paths": {
-            "*": ["./*"]
-        }
-      }    
+{
+  "compilerOptions": {
+    "jsx": "react",
+    "checkJs": true,
+    "baseUrl": ".",
+    "ignoreDeprecations": "6.0",
+    "paths": {
+      "@components/*": ["components/*"],
+      "@app/*": ["app/*"]
+    }
+  },
+  "include": ["app/*"]
 }
