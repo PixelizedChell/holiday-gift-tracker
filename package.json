@@ -31,6 +31,7 @@
     "drizzle-kit": "^0.31.7",
     "eslint": "8.57.1",
     "eslint-config-next": "16.0.0-beta.0",
+    "eslint-plugin-react": "^7.37.5",
     "postcss": "^8.4.36",
     "tailwindcss": "^4.1.15"
   }
