@@ -12,10 +12,13 @@
     "packageJson": {
       "dependencies": [
         "npm:@netlify/blobs@^10.4.1",
+        "npm:@netlify/neon@0.1",
         "npm:@tailwindcss/postcss@^4.1.15",
         "npm:babel-plugin-react-compiler@1",
         "npm:blobshape@1",
         "npm:bright@1",
+        "npm:drizzle-kit@~0.31.7",
+        "npm:drizzle-orm@~0.44.7",
         "npm:eslint-config-next@16.0.0-beta.0",
         "npm:eslint@8.57.1",
         "npm:markdown-to-jsx@^7.7.16",
