@@ -1,13 +1,24 @@
 {
   "compilerOptions": {
-    "jsx": "react",
+    "target": "es2022",
+    "module": "es2022",
+    "jsx": "react-jsx",
     "checkJs": true,
-    "baseUrl": ".",
+    "baseUrl": "./",
     "ignoreDeprecations": "6.0",
     "paths": {
-      "@components/*": ["components/*"],
-      "@app/*": ["app/*"]
+      "@components/*": [
+        "components/*"
+      ],
+      "@app/*": [
+        "app/*"
+      ],
+      "@/*": [
+        "./*"
+      ]
     }
   },
-  "include": ["./*"]
+  "include": [
+    "./*"
+  ]
 }

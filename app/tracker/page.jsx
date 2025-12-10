@@ -5,13 +5,11 @@ import TableContainer from '@mui/material/TableContainer';
 import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
 import Paper from '@mui/material/Paper';
-import { neon } from '@netlify/neon';
 import dayjs from 'dayjs';
 import { Typography } from '@mui/material';
+import UpdatePurchased from '@components/UpdatePurchased';
+import { getTrackerRows } from 'helpers';
 
-const sql = neon();
-const user_id = 1;
-const rows = await sql("SELECT recipients.name AS recipient_name, gift.gift_name, gift.link, gift.price, holiday.holiday_name, holiday.date AS holiday_date, purchased FROM gift JOIN recipients ON recipients.id = gift.recipient_id OR gift.recipient_id = NULL JOIN users ON users.id = recipients.user_id JOIN holiday ON holiday.id = gift.holiday_id WHERE users.id = $1;", [user_id])
 export const dynamic = 'force-dynamic'
 
 const purchasedText = (row) => {
@@ -21,6 +19,8 @@ const purchasedText = (row) => {
     return <Typography key={row.gift_name + " not yet purchased"} className={'unpurchased-cell'} ><b>Not yet purchased</b></Typography>
   }
 }
+const user_id = 1;
+let rows = await getTrackerRows(user_id)
 
 export default function Page() {
   return (
@@ -38,20 +38,20 @@ export default function Page() {
           </TableRow>
         </TableHead>
         <TableBody>
-          {rows.map((row) => (
+          {rows.map((row, index) => (
             <TableRow
-              key={row.name}
+              key={'row' + index}
               sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
             >
-              <TableCell key={row.recipient_name} component="th" scope="row">
-                {row.recipient_name}
+              <TableCell component="th" scope="row">
+                {row.recipientName}
               </TableCell>
-              <TableCell>{row.gift_name}</TableCell>
+              <TableCell>{row.giftName}</TableCell>
               <TableCell><a href={row.link}>{row.link}</a></TableCell>
-              <TableCell>{row.holiday_name} {dayjs(row.holiday_date).format('MM/DD/YYYY')}</TableCell>
+              <TableCell>{row.holidayName} {dayjs(row.holidayDate).format('MM/DD/YYYY')}</TableCell>
               <TableCell align="left">${row.price}</TableCell>
               <TableCell align="left">{purchasedText(row)}</TableCell>
-              <TableCell align="left"></TableCell>
+              <TableCell align="left"><UpdatePurchased row={row} /></TableCell>
             </TableRow>
           ))}
         </TableBody>

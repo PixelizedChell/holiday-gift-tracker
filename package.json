@@ -13,9 +13,11 @@
     "db:studio": "netlify dev:exec drizzle-kit studio"
   },
   "dependencies": {
+    "@clerk/nextjs": "^6.36.1",
     "@emotion/react": "^11.14.0",
     "@emotion/styled": "^11.14.1",
     "@mui/material": "^7.3.6",
+    "@neondatabase/serverless": "^1.0.2",
     "@netlify/blobs": "^10.4.1",
     "@netlify/neon": "^0.1.0",
     "babel-plugin-react-compiler": "^1.0.0",
@@ -23,6 +25,7 @@
     "blobshape": "^1.0.0",
     "bright": "^1.0.0",
     "dayjs": "^1.11.19",
+    "dotenv": "^17.2.3",
     "drizzle-orm": "^0.44.7",
     "markdown-to-jsx": "^7.7.16",
     "next": "^16.0.0",

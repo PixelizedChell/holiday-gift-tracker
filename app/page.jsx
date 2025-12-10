@@ -1,6 +1,5 @@
-import Link from 'next/link';
-import { Card } from 'components/card';
-import { ContextAlert } from 'components/context-alert';
+import { Card } from '@components/card';
+import { ContextAlert } from '@components/context-alert';
 import { Markdown } from 'components/markdown';
 import { RandomQuote } from 'components/random-quote';
 import { getNetlifyContext } from 'utils';
@@ -28,12 +27,12 @@ export default function Page() {
             </section>
             {!!ctx && (
                 <section className="flex flex-col gap-4">
-                    <Markdown content={contextExplainer} />
+                    <Markdown content={contextExplainer} className={undefined} />
                     <RuntimeContextCard />
                 </section>
             )}
             <section className="flex flex-col gap-4">
-                <Markdown content={preDynamicContentExplainer} />
+                <Markdown content={preDynamicContentExplainer} className={undefined} />
                 <RandomQuote />
             </section>
         </div>
@@ -44,14 +43,14 @@ function RuntimeContextCard() {
     const title = `Netlify Context: running in ${ctx} mode.`;
     if (ctx === 'dev') {
         return (
-            <Card title={title}>
+            <Card title={title} className="">
                 <p>Next.js will rebuild any page you navigate to, including static pages.</p>
             </Card>
         );
     } else {
         const now = new Date().toISOString();
         return (
-            <Card title={title}>
+            <Card title={title} className="">
                 <p>This page was statically-generated at build time ({now}).</p>
             </Card>
         );
