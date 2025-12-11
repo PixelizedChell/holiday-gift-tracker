@@ -1,15 +1,18 @@
-import { UserButton } from '@clerk/nextjs';
+'use client'
+import { UserButton, useUser } from '@clerk/nextjs';
 import Link from 'next/link';
 
-const navItems = [
-    { linkText: 'Home', href: '/' },
-    { linkText: 'Gift Tracker', href: '/tracker' },
-    { linkText: 'Giftees', href: '/giftees' }, //todo
-    { linkText: 'Registration', href: '/api/auth/registration' }, //todo
-    { linkText: 'Login', href: '/api/auth/signin' } //todo
-];
-
 export function Header() {
+    const { isSignedIn } = useUser()
+    const navItems = isSignedIn ? [
+        { linkText: 'Home', href: '/' },
+        { linkText: 'Gift Tracker', href: '/tracker' },
+        { linkText: 'Giftees', href: '/giftees' }
+    ] : [
+        { linkText: 'Home', href: '/' },
+        { linkText: 'Registration', href: '/sign-up' },
+        { linkText: 'Login', href: '/sign-in' }
+    ];
     return (
         <nav className="flex flex-wrap items-center gap-4 pt-6 pb-12 sm:pt-12 md:pb-24">
             <Link href="/">

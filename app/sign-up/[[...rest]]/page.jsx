@@ -8,9 +8,8 @@ export default function Page() {
             <SignUp />
         )
     } else {
-        <div>
-            <h1>You are already signed in.</h1>
-            <SignOutButton />
-        </div>
+        return (
+            <div>You are already signed in.<br /><a href="/sign-out"><SignOutButton /></a></div>
+        )
     }
 }

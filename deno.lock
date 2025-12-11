@@ -35,7 +35,7 @@
         "npm:eslint-plugin-react@^7.37.5",
         "npm:eslint@8.57.1",
         "npm:markdown-to-jsx@^7.7.16",
-        "npm:next@16",
+        "npm:next@^16.0.7",
         "npm:postcss@^8.4.36",
         "npm:react-dom@19.2.0",
         "npm:react@19.2.0",

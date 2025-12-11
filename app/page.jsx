@@ -31,10 +31,6 @@ export default function Page() {
                     <RuntimeContextCard />
                 </section>
             )}
-            <section className="flex flex-col gap-4">
-                <Markdown content={preDynamicContentExplainer} className={undefined} />
-                <RandomQuote />
-            </section>
         </div>
     );
 }
