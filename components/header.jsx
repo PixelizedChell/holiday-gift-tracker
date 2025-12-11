@@ -1,10 +1,11 @@
+import { UserButton } from '@clerk/nextjs';
 import Link from 'next/link';
 
 const navItems = [
     { linkText: 'Home', href: '/' },
     { linkText: 'Gift Tracker', href: '/tracker' },
     { linkText: 'Giftees', href: '/giftees' }, //todo
-    { linkText: 'Registration', href: '/registration' }, //todo
+    { linkText: 'Registration', href: '/api/auth/registration' }, //todo
     { linkText: 'Login', href: '/api/auth/signin' } //todo
 ];
 
@@ -24,6 +25,7 @@ export function Header() {
                     ))}
                 </ul>
             )}
+            <UserButton />
         </nav>
     );
 }

@@ -13,7 +13,7 @@ export const users = pgTable("users", {
 
 export const recipients = pgTable("recipients", {
 	id: serial().primaryKey().notNull(),
-	userId: integer("user_id").notNull(),
+	userId: text("user_id").notNull(),
 	relationship: varchar({ length: 20 }),
 	birthday: date(),
 	otherInfo: text("other_info"),

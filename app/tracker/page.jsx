@@ -1,61 +1,14 @@
-import Table from '@mui/material/Table';
-import TableBody from '@mui/material/TableBody';
-import TableCell from '@mui/material/TableCell';
-import TableContainer from '@mui/material/TableContainer';
-import TableHead from '@mui/material/TableHead';
-import TableRow from '@mui/material/TableRow';
-import Paper from '@mui/material/Paper';
-import dayjs from 'dayjs';
-import { Typography } from '@mui/material';
-import UpdatePurchased from '@components/UpdatePurchased';
+"use server";
+
 import { getTrackerRows } from 'helpers';
+import { auth } from '@clerk/nextjs/server';
+import TrackerTable from '@components/tracker-table';
 
-export const dynamic = 'force-dynamic'
-
-const purchasedText = (row) => {
-  if (row.purchased) {
-    return <Typography key={row.gift_name + " purchased"}>Purchased</Typography>
-  } else {
-    return <Typography key={row.gift_name + " not yet purchased"} className={'unpurchased-cell'} ><b>Not yet purchased</b></Typography>
-  }
-}
-const user_id = 1;
-let rows = await getTrackerRows(user_id)
-
-export default function Page() {
+export default async function Page() {
+  
+  const { userId } = await auth()
+  const rows = await getTrackerRows(userId)
   return (
-    <TableContainer component={Paper}>
-      <Table sx={{ minWidth: 650 }} aria-label="simple table">
-        <TableHead>
-          <TableRow>
-            <TableCell>Recipient</TableCell>
-            <TableCell>Gift Name</TableCell>
-            <TableCell>Gift Link</TableCell>
-            <TableCell>Holiday</TableCell>
-            <TableCell>Price</TableCell>
-            <TableCell>Purchased</TableCell>
-            <TableCell>Mark as purchased?</TableCell>
-          </TableRow>
-        </TableHead>
-        <TableBody>
-          {rows.map((row, index) => (
-            <TableRow
-              key={'row' + index}
-              sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
-            >
-              <TableCell component="th" scope="row">
-                {row.recipientName}
-              </TableCell>
-              <TableCell>{row.giftName}</TableCell>
-              <TableCell><a href={row.link}>{row.link}</a></TableCell>
-              <TableCell>{row.holidayName} {dayjs(row.holidayDate).format('MM/DD/YYYY')}</TableCell>
-              <TableCell align="left">${row.price}</TableCell>
-              <TableCell align="left">{purchasedText(row)}</TableCell>
-              <TableCell align="left"><UpdatePurchased row={row} /></TableCell>
-            </TableRow>
-          ))}
-        </TableBody>
-      </Table>
-    </TableContainer >
+    <TrackerTable rows={rows} />
   );
 }
