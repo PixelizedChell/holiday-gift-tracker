@@ -1,13 +1,16 @@
 'use client'
-import { UserButton, useUser } from '@clerk/nextjs';
+import { SignOutButton, UserButton, useUser } from '@clerk/nextjs';
 import Link from 'next/link';
 
 export function Header() {
-    const { isSignedIn } = useUser()
+    const { isSignedIn, user } = useUser()
+    const username = user?.username;
+    const firstName = user?.firstName
     const navItems = isSignedIn ? [
         { linkText: 'Home', href: '/' },
         { linkText: 'Gift Tracker', href: '/tracker' },
-        { linkText: 'Giftees', href: '/giftees' }
+        { linkText: 'Giftees', href: '/giftees' },
+        { linkText: 'Add a Gift', href: '/add-gift' }
     ] : [
         { linkText: 'Home', href: '/' },
         { linkText: 'Registration', href: '/sign-up' },
@@ -28,7 +31,13 @@ export function Header() {
                     ))}
                 </ul>
             )}
-            <UserButton />
+        {isSignedIn && user && (
+            <div className='items-right'>
+                <b>Hello{" " + firstName || " " + username || ""}!</b>
+                <UserButton />
+                <Link href="" className="inline-flex px-1.5 py-1 sm:px-3 sm:py-2"><SignOutButton /></Link>
+            </div>
+        )}
         </nav>
     );
 }

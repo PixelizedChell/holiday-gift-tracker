@@ -11,7 +11,7 @@ export const users = pgTable("users", {
 	unique("users_email_key").on(table.email),
 ]);
 
-export const recipients = pgTable("recipients", {
+export const giftees = pgTable("giftees", {
 	id: serial().primaryKey().notNull(),
 	userId: text("user_id").notNull(),
 	relationship: varchar({ length: 20 }),
@@ -28,7 +28,7 @@ export const recipients = pgTable("recipients", {
 
 export const gift = pgTable("gift", {
 	id: serial().primaryKey().notNull(),
-	recipientId: integer("recipient_id").notNull(),
+	gifteeId: integer("giftee_id").notNull(),
 	link: text(),
 	otherInfo: text("other_info"),
 	holidayId: integer("holiday_id"),
@@ -37,8 +37,8 @@ export const gift = pgTable("gift", {
 	purchased: boolean().default(false),
 }, (table) => [
 	foreignKey({
-		columns: [table.recipientId],
-		foreignColumns: [recipients.id],
+		columns: [table.gifteeId],
+		foreignColumns: [giftees.id],
 		name: "fk_recipient"
 	}),
 ]);
@@ -47,11 +47,11 @@ export const holiday = pgTable("holiday", {
 	id: serial().primaryKey().notNull(),
 	date: date().notNull(),
 	holidayName: text("holiday_name"),
-	recipientId: integer("recipient_id"),
+	gifteeId: integer("giftee_id"),
 }, (table) => [
 	foreignKey({
-		columns: [table.recipientId],
-		foreignColumns: [recipients.id],
+		columns: [table.gifteeId],
+		foreignColumns: [giftees.id],
 		name: "fk_gift_recipient"
 	}),
 ]);

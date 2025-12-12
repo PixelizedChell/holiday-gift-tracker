@@ -1,5 +1,4 @@
 "use server";
-
 import { getTrackerRows } from 'helpers';
 import { auth } from '@clerk/nextjs/server';
 import TrackerTable from '@components/tracker-table';

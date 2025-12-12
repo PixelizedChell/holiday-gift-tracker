@@ -1,12 +1,12 @@
 'use server'
 import { eq, isNull, or } from 'drizzle-orm';
 import { db } from './db/index';
-import { gift, recipients, holiday } from './db/schema';
+import { gift, giftees, holiday } from './db/schema';
 
 export const getTrackerRows = async (userId) => {
     return await userId ? db.select({
         giftId: gift.id,
-        recipientName: recipients.name,
+        recipientName: giftees.name,
         giftName: gift.giftName,
         link: gift.link,
         price: gift.price,
@@ -15,12 +15,20 @@ export const getTrackerRows = async (userId) => {
         purchased: gift.purchased,
     }).from(gift)
         .innerJoin(
-            recipients,
+            giftees,
             or(
-                eq(recipients.id, gift.recipientId),
-                isNull(gift.recipientId),
+                eq(giftees.id, gift.gifteeId)
             ),
         )
         .innerJoin(holiday, eq(holiday.id, gift.holidayId))
-        .where(eq(recipients.userId, userId)) : [];
+        .where(eq(giftees.userId, userId)) : [];
+}
+
+export const getGifteesRows = async (userId) => {
+    return await userId ? db.select({
+        name: giftees.name,
+        relationship: giftees.relationship,
+        birthday: giftees.birthday,
+    }).from(giftees)
+        .where(eq(giftees.userId, userId)) : [];
 }
