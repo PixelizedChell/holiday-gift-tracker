@@ -1,17 +1,19 @@
-import { clerkMiddleware } from '@clerk/nextjs/server'
+import { clerkMiddleware, createRouteMatcher } from '@clerk/nextjs/server'
 
-export default clerkMiddleware()
+const isPublic = createRouteMatcher([
+  '/',
+  '/sign-in(.*)',
+  '/sign-up(.*)',
+]);
 
+export default clerkMiddleware(async (auth, request) => {
+  // If the route is not public, protect it
+  if (!isPublic(request)) {
+    await auth.protect()
+  }
+});
 export const config = {
   matcher: [
-    /*
-      * Match all request paths except for the ones starting with:
-      * - _next/static (static files)
-      * - _next/image (image optimization files)
-      * - favicon.svg (favicon file)
-      * - public files (images, etc.)
-      */
-
     // all app routes except static files and _next
     "/((?!.*\\..*|_next).*)",
     "/",
