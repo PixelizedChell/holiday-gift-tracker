@@ -42,19 +42,20 @@ export const postGiftee = async (formData) => {
     const relationship = formData.get("relationship")
     const birthday = new Date(formData.get("birthday")).toISOString()
     if (userId && isAuthenticated) {
-        await db.insert(giftees).values({
+        return await db.insert(giftees).values({
             name: gifteeName,
             relationship: relationship,
             birthday: birthday,
             userId: userId
-        })
-        await db.insert(holiday).values({
-            holidayName: `${gifteeName}'s Birthday`,
-            date: birthday,
-            userId: userId
-        }).then(() => {
-            console.log('success')
-        })
+        }).returning({gifteeId: giftees.id})
+            .then(async (giftee) => {
+                return await db.insert(holiday).values({
+                    holidayName: `${gifteeName}'s Birthday`,
+                    date: birthday,
+                    userId: userId,
+                    gifteeId: giftee[0].gifteeId
+                })
+            })
     }
 }
 
@@ -82,7 +83,6 @@ export const getHolidayRows = async () => {
         )
         .where(
             or(
-                isNull(holiday.gifteeId),
                 eq(giftees.userId, userId),
             ),
         ) : [];
