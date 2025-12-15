@@ -1,16 +1,5 @@
 import { pgTable, unique, serial, text, foreignKey, integer, varchar, date, numeric, boolean } from "drizzle-orm/pg-core"
 
-export const users = pgTable("users", {
-	id: serial().primaryKey().notNull(),
-	username: text().unique().notNull(),
-	passwordHash: text("password_hash").notNull(),
-	firstName: text("first_name"),
-	lastName: text("last_name"),
-	email: text().unique().notNull(),
-}, (table) => [
-	unique("users_email_key").on(table.email),
-]);
-
 export const giftees = pgTable("giftees", {
 	id: serial().primaryKey().notNull(),
 	userId: text("user_id").notNull(),
@@ -18,13 +7,7 @@ export const giftees = pgTable("giftees", {
 	birthday: date(),
 	otherInfo: text("other_info"),
 	name: text(),
-}, (table) => [
-	foreignKey({
-		columns: [table.userId],
-		foreignColumns: [users.id],
-		name: "fk_user"
-	}),
-]);
+});
 
 export const gift = pgTable("gift", {
 	id: serial().primaryKey().notNull(),
@@ -35,6 +18,7 @@ export const gift = pgTable("gift", {
 	giftName: text("gift_name"),
 	price: numeric(),
 	purchased: boolean().default(false),
+	userId: text("user_id").notNull()
 }, (table) => [
 	foreignKey({
 		columns: [table.gifteeId],
@@ -48,6 +32,7 @@ export const holiday = pgTable("holiday", {
 	date: date().notNull(),
 	holidayName: text("holiday_name"),
 	gifteeId: integer("giftee_id"),
+	userId: text("user_id").notNull(),
 }, (table) => [
 	foreignKey({
 		columns: [table.gifteeId],

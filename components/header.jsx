@@ -10,7 +10,8 @@ export function Header() {
         { linkText: 'Home', href: '/' },
         { linkText: 'Gift Tracker', href: '/tracker' },
         { linkText: 'Giftees', href: '/giftees' },
-        { linkText: 'Add a Gift', href: '/add-gift' }
+        { linkText: 'Holidays', href: '/holidays'},
+        { linkText: 'Gifts', href: '/gifts'},
     ] : [
         { linkText: 'Home', href: '/' },
         { linkText: 'Registration', href: '/sign-up' },

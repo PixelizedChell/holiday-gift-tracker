@@ -8,9 +8,9 @@ import TableRow from '@mui/material/TableRow';
 import Paper from '@mui/material/Paper';
 import dayjs from 'dayjs';
 import { Typography } from '@mui/material';
-import UpdatePurchased from '@components/UpdatePurchased';
 import { getTrackerRows } from '@app/actions';
 import { useEffect, useState } from 'react';
+import UpdatePurchased from '@components/update-purchased';
 export const dynamic = 'force-dynamic'
 
 const purchasedText = (row) => {
