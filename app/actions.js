@@ -36,13 +36,15 @@ export const getGifteesRows = async () => {
         .where(eq(giftees.userId, userId)) : [];
 }
 
-export const postGiftee = async () => {
+export const postGiftee = async (formData) => {
     const { userId, isAuthenticated } = await auth();
-    return userId && isAuthenticated ? await db.insert({
-        name: giftees.name,
-        relationship: giftees.relationship,
-        birthday: giftees.birthday,
+    const gifteeName = formData.get("name");
+    const relationship = formData.get("relationship")
+    const birthday = new Date(formData.get("birthday"))
+    return userId && isAuthenticated && await db.insert(giftees).values({
+        name: gifteeName,
+        relationship: relationship,
+        birthday: birthday,
         userId: userId
-    }).from(giftees)
-        .where(eq(giftees.userId, userId)) : [];
+    })
 }

@@ -13,7 +13,7 @@ import dayjs from 'dayjs';
 import { useEffect, useState } from 'react';
 
 export default function GifteesTable() {
-    const [modalOpen, setModalOpen] = useState();
+    const [modalOpen, setModalOpen] = useState(false);
     const [tableRows, setTableRows] = useState([]);
     useEffect(() => {
       async function fetchRows() {
@@ -23,7 +23,7 @@ export default function GifteesTable() {
         }
       }
       fetchRows();
-    }, [])
+    }, [modalOpen])
     return (
         <div>
             <TableContainer component={Paper}>

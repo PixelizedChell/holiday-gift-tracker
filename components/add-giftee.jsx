@@ -2,6 +2,7 @@ import { Button, Container, Dialog, DialogActions, DialogContent, DialogContentT
 import { DatePicker } from '@mui/x-date-pickers/DatePicker';
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
+import { postGiftee } from "@app/actions";
 
 export function AddGiftee({ open, handleClose }) {
     return (
@@ -14,7 +15,7 @@ export function AddGiftee({ open, handleClose }) {
                             <DialogContentText>
                                 Please enter your giftee's information to add them to the list.
                             </DialogContentText>
-                            <form onSubmit={() => { }} id="add-giftee-form">
+                            <form action={postGiftee} onSubmit={handleClose} id="add-giftee-form">
                                 <Stack spacing={3}>
                                     <TextField
                                         autoFocus
@@ -34,7 +35,7 @@ export function AddGiftee({ open, handleClose }) {
                                         variant="standard"
                                     />
                                     <LocalizationProvider dateAdapter={AdapterDayjs}>
-                                        <DatePicker label="Birthday *" required/>
+                                        <DatePicker label="Birthday *" name="birthday" required />
                                     </LocalizationProvider>
                                 </Stack>
                             </form>
