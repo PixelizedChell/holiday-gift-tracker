@@ -1,9 +1,30 @@
 'use client'
-import { postHoliday } from "@app/actions";
+import { getGifteesRows, getHolidayRows, postGift, postHoliday } from "@app/actions";
 import CurrencyInput from "@components/currency-input";
 import { Button, DialogActions, DialogContent, DialogContentText, DialogTitle, Divider, FormControl, FormControlLabel, InputLabel, MenuItem, Paper, Select, Stack, Switch, TextField } from "@mui/material";
+import { useEffect, useState } from "react";
 
 export default function Page() {
+    const [gifteeRows, setGifteeRows] = useState([]);
+    const [holidayRows, setHolidayRows] = useState([]);
+    useEffect(() => {
+        async function fetchGifteeRows() {
+            const rows = await getGifteesRows();
+            if (rows?.length > 0) {
+                setGifteeRows(rows);
+            }
+        }
+        fetchGifteeRows();
+    }, [])
+    useEffect(() => {
+        async function fetchHolidayRows() {
+            const rows = await getHolidayRows();
+            if (rows?.length > 0) {
+                setHolidayRows(rows);
+            }
+        }
+        fetchHolidayRows();
+    }, [])
     return (
         <Paper>
             <DialogTitle>Add A Gift</DialogTitle>
@@ -14,36 +35,32 @@ export default function Page() {
                 <br></br>
                 <Divider />
                 <br></br>
-                <form action={postHoliday} id="add-holiday-form">
+                <form action={postGift} id="add-gift-form">
                     <Stack spacing={3}>
                         <FormControl fullWidth>
                             <InputLabel id="select-recipient-label">Giftee</InputLabel>
                             <Select
                                 labelId="select-recipient-label"
                                 id="select-recipient"
-                                value={0}
                                 label="Giftee"
+                                name="gift-recipient"
                                 required
-                                onChange={() => { }}
+                                control={false}
                             >
-                                <MenuItem value={10}>Giftee 1</MenuItem>
-                                <MenuItem value={20}>Giftee 2</MenuItem>
-                                <MenuItem value={30}>Giftee 3</MenuItem>
+                                {gifteeRows.length > 0 && gifteeRows.map(row => <MenuItem key={row.id} value={row.id}>{row.name}</MenuItem>)}
                             </Select>
                         </FormControl>
                         <FormControl fullWidth>
                             <InputLabel id="select-holiday-label">Holiday</InputLabel>
                             <Select
                                 labelId="select-holiday-label"
-                                id="select-holiday"
-                                value={0}
+                                id="gift-holiday"
                                 label="Holiday"
+                                name="gift-holiday"
                                 required
-                                onChange={() => { }}
+                                control={false}
                             >
-                                <MenuItem value={10}>Hannukah</MenuItem>
-                                <MenuItem value={20}>Christmas</MenuItem>
-                                <MenuItem value={30}>New Year's</MenuItem>
+                                {holidayRows.length > 0 && holidayRows.map(row => <MenuItem key={row.id} value={row.id}>{row.holidayName}</MenuItem>)}
                             </Select>
                         </FormControl>
                         <TextField
@@ -64,14 +81,21 @@ export default function Page() {
                             fullWidth
                             variant="standard"
                         />
-                        <CurrencyInput name="gift-price" label="Price" id="gift-price"/>
-                        <FormControlLabel control={<Switch defaultChecked={false} name="gift-purchased" />} label="Already purchased?" />
+                        <CurrencyInput name="gift-price" label="Price" id="gift-price" />
+                        <TextField
+                            multiline
+                            id="other-gift-info"
+                            name="other-gift-info"
+                            label="Other Information"
+                            variant="standard"
+                        />
+                        <FormControlLabel control={<Switch defaultChecked={false} name="gift-purchased" value="true" />} label="Already purchased?" />
                     </Stack>
                 </form>
             </DialogContent>
             <DialogActions>
                 <Button onClick={() => { }}>Cancel</Button>
-                <Button type="submit" form="add-holiday-form">
+                <Button type="submit" form="add-gift-form">
                     Submit
                 </Button>
             </DialogActions>
