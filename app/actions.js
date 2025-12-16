@@ -1,5 +1,5 @@
 'use server'
-import { eq, or, isNull } from 'drizzle-orm';
+import { eq, or } from 'drizzle-orm';
 import { db } from '../db/index';
 import { gift, giftees, holiday } from '../db/schema';
 import { auth } from '@clerk/nextjs/server';
@@ -18,9 +18,7 @@ export const getTrackerRows = async () => {
     }).from(gift)
         .innerJoin(
             giftees,
-            or(
-                eq(giftees.id, gift.gifteeId)
-            ),
+            eq(giftees.id, gift.gifteeId),
         )
         .innerJoin(holiday, eq(holiday.id, gift.holidayId))
         .where(eq(giftees.userId, userId)) : [];
@@ -47,7 +45,7 @@ export const postGiftee = async (formData) => {
             relationship: relationship,
             birthday: birthday,
             userId: userId
-        }).returning({gifteeId: giftees.id})
+        }).returning({ gifteeId: giftees.id })
             .then(async (giftee) => {
                 return await db.insert(holiday).values({
                     holidayName: `${gifteeName}'s Birthday`,
@@ -81,11 +79,7 @@ export const getHolidayRows = async () => {
             giftees,
             eq(holiday.gifteeId, giftees.id),
         )
-        .where(
-            or(
-                eq(giftees.userId, userId),
-            ),
-        ) : [];
+        .where(eq(giftees.userId, userId)) : [];
 }
 
 export const postGift = async (formData) => {

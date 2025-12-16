@@ -11,7 +11,7 @@ export function Header() {
         { linkText: 'Gift Tracker', href: '/tracker' },
         { linkText: 'Giftees', href: '/giftees' },
         { linkText: 'Holidays', href: '/holidays'},
-        { linkText: 'Gifts', href: '/gifts'},
+        { linkText: 'Add Gift', href: '/addgift'},
     ] : [
         { linkText: 'Home', href: '/' },
         { linkText: 'Registration', href: '/sign-up' },
