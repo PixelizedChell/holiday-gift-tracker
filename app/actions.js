@@ -12,10 +12,13 @@ export const getTrackerRows = async () => {
     try {
         return await db.select({
             giftId: gift.id,
+            gifteeId: giftees.id,
             recipientName: giftees.name,
             giftName: gift.giftName,
             link: gift.link,
             price: gift.price,
+            otherInfo: gift.otherInfo,
+            holidayId: holiday.id,
             holidayName: holiday.holidayName,
             holidayDate: holiday.date,
             purchased: gift.purchased,
@@ -65,14 +68,14 @@ export const postGiftee = async (formData) => {
             birthday: birthday,
             userId: userId
         }).returning({ gifteeId: giftees.id })
-        
+
         await db.insert(holiday).values({
             holidayName: `${gifteeName}'s Birthday`,
             date: birthday,
             userId: userId,
             gifteeId: giftee[0].gifteeId
         })
-        
+
         return { success: true };
     } catch (error) {
         return { error: error.message };
@@ -148,6 +151,40 @@ export const postGift = async (formData) => {
             purchased: purchased,
             userId: userId
         });
+        return { success: true };
+    } catch (error) {
+        return { error: error.message };
+    }
+}
+
+
+export const updateGift = async (formData, giftId) => {
+    const { userId, isAuthenticated } = await auth();
+
+    if (!userId || !isAuthenticated) {
+        return { error: 'Not authenticated' };
+    }
+
+    const gifteeId = parseInt(formData.get("gift-recipient"));
+    const holidayId = parseInt(formData.get("gift-holiday"));
+    const giftName = formData.get("gift-name");
+    const link = formData.get("gift-link");
+    const price = formData.get("gift-price")?.replace('$', '').replace(/,/g, '') || '0';
+    const otherInfo = formData.get("other-gift-info") || '';
+    const purchased = formData.get("gift-purchased") === 'on' || formData.get("gift-purchased") === 'true';
+
+    try {
+        await db.update(gift).set({
+            gifteeId: gifteeId,
+            holidayId: holidayId,
+            giftName: giftName,
+            link: link,
+            price: price,
+            otherInfo: otherInfo,
+            purchased: purchased,
+            userId: userId
+        })
+        .where(eq(gift.id, giftId));
         return { success: true };
     } catch (error) {
         return { error: error.message };

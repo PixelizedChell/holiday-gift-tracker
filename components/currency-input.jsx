@@ -25,8 +25,8 @@ const NumberFormatCustom = React.forwardRef(function NumberFormatCustom(props, r
   );
 });
 
-export default function CurrencyInput({name, label, id}) {
-    const [numberformat, setNumberformat] = React.useState(0);
+export default function CurrencyInput({name, label, id, defaultValue}) {
+    const [numberformat, setNumberformat] = React.useState(defaultValue || 0);
   
     const handleChange = (event) => {
       setNumberformat(event.target.value);

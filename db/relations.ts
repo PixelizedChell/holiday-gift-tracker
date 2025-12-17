@@ -1,7 +1,7 @@
 import { relations } from "drizzle-orm/relations";
 import { giftees, gift, holiday } from "./schema";
 
-export const recipientsRelations = relations(giftees, ({ one, many }) => ({
+export const recipientsRelations = relations(giftees, ({ many }) => ({
 	gifts: many(gift),
 	holidays: many(holiday),
 }));
