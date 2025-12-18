@@ -5,7 +5,7 @@ import { Paper } from "@mui/material";
 export default function Page() {
     return (
         <Paper>
-            <AddUpdateGift editing={false} row={{}}/>
+            <AddUpdateGift editing={false} row={{}} onClose={() => {}}/>
         </Paper>
     )
 }

@@ -190,3 +190,17 @@ export const updateGift = async (formData, giftId) => {
         return { error: error.message };
     }
 }
+
+export const deleteGift = async (giftId) => {
+    const { userId, isAuthenticated } = await auth();
+
+    if (!userId || !isAuthenticated) {
+        return { error: 'Not authenticated' };
+    }
+    try {
+        await db.delete(gift).where(eq(gift.id, giftId));
+        return { success: true };
+    } catch (error) {
+        return { error: error.message };
+    }
+}

@@ -1,15 +1,10 @@
 "use client";
-import Table from '@mui/material/Table';
-import TableBody from '@mui/material/TableBody';
 import TableCell from '@mui/material/TableCell';
-import TableContainer from '@mui/material/TableContainer';
-import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
-import Paper from '@mui/material/Paper';
 import dayjs from 'dayjs';
-import { Dialog, IconButton, Tooltip, Typography } from '@mui/material';
-import { getTrackerRows } from '@app/actions';
-import { useEffect, useState } from 'react';
+import { Button, Container, Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle, IconButton, Tooltip, Typography } from '@mui/material';
+import { deleteGift } from '@app/actions';
+import { useState } from 'react';
 import DeleteIcon from '@mui/icons-material/Delete';
 import EditIcon from '@mui/icons-material/Edit';
 import AddUpdateGift from './add-update-gift';
@@ -26,9 +21,13 @@ const purchasedText = (row) => {
 export default function TrackerTableRow({ row, index, fetchRows }) {
     const [editModalOpen, setEditModalOpen] = useState(false);
     const [deleteModalOpen, setDeleteModalOpen] = useState(false);
-    
-    const handleClose = () => {
+
+    const handleCloseEditModal = () => {
         setEditModalOpen(false);
+    };
+
+    const handleCloseDeleteModal = () => {
+        setDeleteModalOpen(false);
     };
 
     return (
@@ -46,14 +45,38 @@ export default function TrackerTableRow({ row, index, fetchRows }) {
             <TableCell align="left">{purchasedText(row)}</TableCell>
             <TableCell>
                 <Tooltip title="Edit">
-                    <IconButton onClick={() => setEditModalOpen(true)}>
+                    <IconButton onClick={setEditModalOpen}>
                         <EditIcon />
                     </IconButton>
                 </Tooltip>
             </TableCell>
-            <TableCell><Tooltip title="Delete"><IconButton><DeleteIcon /></IconButton></Tooltip></TableCell>
-            <Dialog open={editModalOpen} onClose={handleClose} maxWidth="md" fullWidth>
-                <AddUpdateGift editing={true} row={row} onClose={handleClose} fetchRows={fetchRows} />
+            <TableCell>
+                <Tooltip title="Delete">
+                    <IconButton onClick={() => setDeleteModalOpen(true)}>
+                        <DeleteIcon />
+                    </IconButton>
+                </Tooltip>
+            </TableCell>
+            <Dialog open={editModalOpen} onClose={handleCloseEditModal} maxWidth="md" fullWidth>
+                <AddUpdateGift editing={true} row={row} onClose={handleCloseEditModal} fetchRows={fetchRows} />
+            </Dialog>
+            <Dialog open={deleteModalOpen} onClose={handleCloseDeleteModal} maxWidth="md" fullWidth>
+                <Container>
+                    <DialogTitle>Delete Gift?</DialogTitle>
+                    <DialogContent>
+                        <DialogContentText>Are you sure you want to delete this gift?</DialogContentText>
+                        <DialogActions>
+                            <Button onClick={handleCloseDeleteModal}>Cancel</Button>
+                            <Button onClick={async () => {
+                                await deleteGift(row.giftId);
+                                handleCloseDeleteModal();
+                                await fetchRows();
+                            }}>
+                                Delete
+                            </Button>
+                        </DialogActions>
+                    </DialogContent>
+                </Container>
             </Dialog>
         </TableRow>
     )
