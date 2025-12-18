@@ -8,7 +8,6 @@ export function Header() {
     const firstName = user?.firstName
     const navItems = isSignedIn ? [
         { linkText: 'Home', href: '/' },
-        { linkText: 'Gift Tracker', href: '/tracker' },
         { linkText: 'Giftees', href: '/giftees' },
         { linkText: 'Holidays', href: '/holidays'},
         { linkText: 'Add Gift', href: '/addgift'},

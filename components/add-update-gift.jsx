@@ -9,6 +9,8 @@ export default function AddUpdateGift({ editing, row, onClose, fetchRows }) {
     const [holidayRows, setHolidayRows] = useState([]);
     const [selectedGiftee, setSelectedGiftee] = useState(row?.gifteeId || '');
     const [selectedHoliday, setSelectedHoliday] = useState(row?.holidayId || '');
+    const [purchased, setPurchased] = useState(row?.purchased ?? false);
+    
     useEffect(() => {
         async function fetchGifteeRows() {
             const rows = await getGifteesRows();
@@ -47,7 +49,7 @@ export default function AddUpdateGift({ editing, row, onClose, fetchRows }) {
         } else {
             await postGift(formData);
         }
-        handleClose && handleClose();
+        onClose && onClose();
         fetchRows && fetchRows();
     }
 
@@ -120,7 +122,7 @@ export default function AddUpdateGift({ editing, row, onClose, fetchRows }) {
                             variant="standard"
                             defaultValue={row?.otherInfo}
                         />
-                        <FormControlLabel control={<Switch defaultChecked={row?.purchased || false} name="gift-purchased" value="true" />} label="Already purchased?" />
+                        <FormControlLabel control={<Switch defaultChecked={row?.purchased || false} name="gift-purchased" />} label="Already purchased?" />
                     </Stack>
                 </form>
             </DialogContent>

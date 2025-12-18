@@ -119,7 +119,7 @@ export const getHolidayRows = async () => {
                 giftees,
                 eq(holiday.gifteeId, giftees.id),
             )
-            .where(eq(giftees.userId, userId))
+            .where(eq(holiday.userId, userId))
     } catch (error) {
         return { error: error.message };
     }
@@ -156,7 +156,6 @@ export const postGift = async (formData) => {
         return { error: error.message };
     }
 }
-
 
 export const updateGift = async (formData, giftId) => {
     const { userId, isAuthenticated } = await auth();
