@@ -9,7 +9,6 @@ export default function AddUpdateGift({ editing, row, onClose, fetchRows }) {
     const [holidayRows, setHolidayRows] = useState([]);
     const [selectedGiftee, setSelectedGiftee] = useState(row?.gifteeId || '');
     const [selectedHoliday, setSelectedHoliday] = useState(row?.holidayId || '');
-    const [purchased, setPurchased] = useState(row?.purchased ?? false);
     
     useEffect(() => {
         async function fetchGifteeRows() {

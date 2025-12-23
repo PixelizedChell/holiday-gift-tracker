@@ -1,6 +1,7 @@
 'use client'
 import { SignOutButton, UserButton, useUser } from '@clerk/nextjs';
 import Link from 'next/link';
+import RedeemIcon from '@mui/icons-material/Redeem';
 
 export function Header() {
     const { isSignedIn, user } = useUser()
@@ -18,8 +19,7 @@ export function Header() {
     ];
     return (
         <nav className="flex flex-wrap items-center gap-4 pt-6 pb-12 sm:pt-12 md:pb-24">
-            <Link href="/">
-            </Link>
+            <Link href="/"><RedeemIcon/></Link>
             {!!navItems?.length && (
                 <ul className="flex flex-wrap gap-x-4 gap-y-1">
                     {navItems.map((item, index) => (
