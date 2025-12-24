@@ -41,6 +41,7 @@ export default function TrackerTableRow({ row, index, fetchRows }) {
             <TableCell>{row.giftName}</TableCell>
             <TableCell><a href={row.link}>{row.link}</a></TableCell>
             <TableCell>{row.holidayName} {dayjs(row.holidayDate).format('MM/DD/YYYY')}</TableCell>
+            <TableCell>{row.otherInfo}</TableCell>
             <TableCell align="left">${row.price}</TableCell>
             <TableCell align="left">{purchasedText(row)}</TableCell>
             <TableCell>

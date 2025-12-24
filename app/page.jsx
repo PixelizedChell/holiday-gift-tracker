@@ -36,6 +36,7 @@ export default function Page() {
                                 <TableCell>Gift Name</TableCell>
                                 <TableCell>Gift Link</TableCell>
                                 <TableCell>Holiday</TableCell>
+                                <TableCell>Other Info</TableCell>
                                 <TableCell>Price</TableCell>
                                 <TableCell>Purchased</TableCell>
                             </TableRow>
