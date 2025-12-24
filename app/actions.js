@@ -1,11 +1,12 @@
 'use server'
-import { eq, or } from 'drizzle-orm';
+import { eq } from 'drizzle-orm';
 import { db } from '../db/index';
 import { gift, giftees, holiday } from '../db/schema';
 import { auth } from '@clerk/nextjs/server';
 
 export const getTrackerRows = async () => {
-    const { userId, isAuthenticated } = await auth()
+    // AI Assistance was used to help translate my initial SQL statement to Drizzle's formatting. I then used this as well as Drizzle's documentation to create the other calls to Drizzle.
+    const { userId, isAuthenticated } = await auth();
     if (!userId || !isAuthenticated) {
         return { error: 'Not authenticated' };
     }
